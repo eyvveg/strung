@@ -1,308 +1,304 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>STRUNG - Random Guitar Tuning Generator</title>
-<style>
-  body {
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    max-width: 900px;
-    margin: 3rem auto;
-    padding: 1rem 2rem;
-    background: #f9f9f9;
-    color: #222;
-    line-height: 1.5;
-    text-transform: uppercase;
-    text-align: center;
-  }
-  .tagline {
-    font-size: 1.7rem;
-    color: #0078d4;
-    margin-bottom: 2rem;
-    letter-spacing: 0.05em;
-  }
-  #tuningDisplay {
-    font-size: 3rem;
-    font-weight: 700;
-    color: #0078d4;
-    margin: 2rem 0 1rem;
-    letter-spacing: 0.15em;
-  }
-  #generateBtn {
-    background: #0078d4;
-    color: white;
-    border: none;
-    padding: 1rem 3rem;
-    font-size: 1.2rem;
-    cursor: pointer;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-  }
-  #generateBtn:hover {
-    background: #005a9e;
-  }
-  #levelLabel {
-    margin-top: 2rem;
-    font-weight: 700;
-    color: #0078d4;
-    letter-spacing: 0.1em;
-  }
-  input[type="range"] {
-    width: 80%;
-    margin-top: 0.5rem;
-  }
-  #levelDesc {
-    margin-top: 0.5rem;
-    font-style: italic;
-    color: #555;
-  }
-  #favorites {
-    margin-top: 2rem;
-    text-align: left;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  #favorites h2 {
-    color: #0078d4;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-  }
-  #favoritesList {
-    list-style: none;
-    padding-left: 0;
-  }
-  #favoritesList li {
-    padding: 0.3rem 0;
-    border-bottom: 1px solid #ccc;
-    cursor: pointer;
-  }
-  #favoritesList li:hover {
-    background-color: #e6f0fa;
-  }
-  #saveFavoriteBtn {
-    margin-top: 1rem;
-    background: #0078d4;
-    color: white;
-    border: none;
-    padding: 0.5rem 1.5rem;
-    font-weight: 700;
-    cursor: pointer;
-    border-radius: 4px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-  #saveFavoriteBtn:hover {
-    background: #005a9e;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>STRUNG - Random Guitar Tuning Generator</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 3rem auto;
+      padding: 1rem 2rem;
+      background: #f9f9f9;
+      color: #222;
+      line-height: 1.5;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    .tagline {
+      font-size: 1.7rem;
+      color: #0078d4;
+      margin-bottom: 2rem;
+      letter-spacing: 0.05em;
+    }
+    #tuningDisplay {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #0078d4;
+      margin: 2rem 0 1rem;
+      letter-spacing: 0.15em;
+    }
+    #generateBtn {
+      background: #0078d4;
+      color: white;
+      border: none;
+      padding: 1rem 3rem;
+      font-size: 1.2rem;
+      cursor: pointer;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+    #generateBtn:hover {
+      background: #005a9e;
+    }
+    #levelLabel {
+      margin-top: 2rem;
+      font-weight: 700;
+      color: #0078d4;
+      letter-spacing: 0.1em;
+    }
+    input[type="range"] {
+      width: 80%;
+      margin-top: 0.5rem;
+    }
+    #levelDesc {
+      margin-top: 0.5rem;
+      font-style: italic;
+      color: #555;
+    }
+    #favorites {
+      margin-top: 2rem;
+      text-align: left;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #favorites h2 {
+      color: #0078d4;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+    }
+    #favoritesList {
+      list-style: none;
+      padding-left: 0;
+    }
+    #favoritesList li {
+      padding: 0.3rem 0;
+      border-bottom: 1px solid #ccc;
+      cursor: pointer;
+    }
+    #favoritesList li:hover {
+      background-color: #e6f0fa;
+    }
+    #saveFavoriteBtn {
+      margin-top: 1rem;
+      background: #0078d4;
+      color: white;
+      border: none;
+      padding: 0.5rem 1.5rem;
+      font-weight: 700;
+      cursor: pointer;
+      border-radius: 4px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    #saveFavoriteBtn:hover {
+      background: #005a9e;
+    }
+  </style>
 </head>
 <body>
 
-<p class="tagline">STRUNG — Random Guitar Tuning Generator</p>
+  <p class="tagline">STRUNG — Random Guitar Tuning Generator</p>
 
-<div id="tuningDisplay">E A D G B E</div>
+  <div id="tuningDisplay">E A D G B E</div>
 
-<button id="generateBtn" aria-label="Generate random tuning">Generate Tuning</button>
+  <button id="generateBtn" aria-label="Generate random tuning">Generate Tuning</button>
 
-<div id="levelLabel">Level: <span id="levelName">Common</span></div>
-<input type="range" id="levelSlider" min="0" max="3" step="1" value="0" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0" aria-label="Select tuning level" />
-<div id="levelDesc">Common alternative tunings (~50)</div>
+  <div id="levelLabel">Level: <span id="levelName">1</span></div>
+  <input type="range" id="levelSlider" min="1" max="4" step="1" value="1" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" aria-label="Select tuning level" />
+  <div id="levelDesc">Common alternative tunings (~50)</div>
 
-<button id="saveFavoriteBtn" disabled>Save Favorite</button>
+  <button id="saveFavoriteBtn" disabled>Save Favorite</button>
 
-<div id="favorites">
-  <h2>Favorites</h2>
-  <ul id="favoritesList"></ul>
-</div>
+  <div id="favorites">
+    <h2>Favorites</h2>
+    <ul id="favoritesList"></ul>
+  </div>
 
-<script>
-  // Notes in chromatic scale (12-tone equal temperament)
-  const NOTES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+  <script>
+    // Notes in chromatic scale (12-tone equal temperament)
+    const NOTES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
-  // Standard tuning notes with octave for internal validation (E2 to E4)
-  const STANDARD_TUNING = ['E2', 'A2', 'D3', 'G3', 'B3', 'E4'];
+    // Standard tuning notes with octave for internal validation (E2 to E4)
+    const STANDARD_TUNING = ['E2', 'A2', 'D3', 'G3', 'B3', 'E4'];
 
-  // Safe pitch range (E1 to E5) for string tuning (octave numbers for validation)
-  const MIN_OCTAVE = 1;
-  const MAX_OCTAVE = 5;
+    // Safe pitch range (E1 to E5) for string tuning (octave numbers for validation)
+    const MIN_OCTAVE = 1;
+    const MAX_OCTAVE = 5;
 
-  // Level descriptions
-  const LEVELS = [
-    { name: 'Common', desc: 'Common alternative tunings (~50)' },
-    { name: 'Expanded', desc: 'Expanded database (~3000)' },
-    { name: 'Crazy', desc: 'Fully random tunings within safe range' },
-    { name: 'Danger', desc: 'Extreme tunings - use with caution' }
-  ];
+    // Level descriptions (now 1-4)
+    const LEVELS = [
+      { name: '1', desc: 'Common alternative tunings (~50)' },
+      { name: '2', desc: 'Expanded database (hundreds/thousands)' },
+      { name: '3', desc: 'Fully random tunings within safe range' },
+      { name: '4', desc: 'Danger: Extreme tunings — use with caution' }
+    ];
 
-  // Example small database for Common level (tuning names only, no octave)
-  const COMMON_TUNINGS = [
-    'E A D G B E', // Standard
-    'D A D G B E', // Drop D
-    'D A D G A D', // DADGAD
-    'C G C G C E', // Open C
-    'D G D G B D', // Open G variant
-    'E B E G# B E', // Open E
-    'C F C G C F', // Open F
-    'D A D F# A D', // Open D
-    'E A E G# B E', // Variant Open E
-    'D A D G B F#'  // Variant DADGAD
-    // ...add more up to ~50
-  ];
+    // Level 1: Example common tunings (replace/add your full list here)
+    const LEVEL1_TUNINGS = [
+      'E A D G B E', // Standard
+      'D A D G B E', // Drop D
+      'D A D G A D', // DADGAD
+      'C G C G C E', // Open C
+      'D G D G B D', // Open G
+      'E B E G# B E', // Open E
+      'C F C G C F', // Open F
+      'D A D F# A D', // Open D
+      'E A E G# B E', // Variant Open E
+      'D A D G B F#'  // Variant DADGAD
+      // ...add more up to ~50
+    ];
 
-  // Placeholder for Expanded level - in practice load a large JSON or database
-  // For demo, we just repeat common tunings multiple times to simulate larger pool
-  const EXPANDED_TUNINGS = Array(3000).fill(COMMON_TUNINGS).flat();
+    // Level 2: Expanded database (replace with your large list)
+    // For demo, just repeat Level 1 tunings to simulate a larger pool
+    const LEVEL2_TUNINGS = Array(300).fill(LEVEL1_TUNINGS).flat();
 
-  // Utility: parse note + octave string, e.g. "E2" => {note:'E', octave:2}
-  function parseNoteOctave(str) {
-    const match = str.match(/^([A-G]#?)(\d)$/);
-    if (!match) return null;
-    return { note: match[1], octave: parseInt(match[2], 10) };
-  }
+    // Utility: parse note + octave string, e.g. "E2" => {note:'E', octave:2}
+    function parseNoteOctave(str) {
+      const match = str.match(/^([A-G]#?)(\d)$/);
+      if (!match) return null;
+      return { note: match[1], octave: parseInt(match[2], 10) };
+    }
 
-  // Utility: get note index in NOTES array
-  function noteIndex(note) {
-    return NOTES.indexOf(note);
-  }
+    // Utility: get note index in NOTES array
+    function noteIndex(note) {
+      return NOTES.indexOf(note);
+    }
 
-  // Generate a random note with octave within safe range
-  function randomNoteInRange() {
-    const octave = Math.floor(Math.random() * (MAX_OCTAVE - MIN_OCTAVE + 1)) + MIN_OCTAVE;
-    const note = NOTES[Math.floor(Math.random() * NOTES.length)];
-    return note + octave;
-  }
-
-  // Convert tuning string (notes only) to array with octave numbers approximated to standard tuning octaves
-  // This is a heuristic: assign octave numbers close to standard tuning string octave
-  function assignOctaves(tuningNotes) {
-    // tuningNotes: array of note names e.g. ['D','A','D','G','A','D']
-    // returns array of note+octave strings e.g. ['D2','A2','D3','G3','A3','D4']
-    return tuningNotes.map((note, i) => {
-      const std = parseNoteOctave(STANDARD_TUNING[i]);
-      if (!std) return note + '3'; // fallback octave 3
-      // Calculate note index difference, adjust octave accordingly
-      let baseIdx = noteIndex(std.note);
-      let noteIdx = noteIndex(note);
-      if (noteIdx === -1) noteIdx = 0; // fallback to C
-      let octave = std.octave;
-      // If note is lower than standard note, reduce octave by 1
-      if (noteIdx > baseIdx) octave -= 1;
+    // Generate a random note with octave within safe range
+    function randomNoteInRange() {
+      const octave = Math.floor(Math.random() * (MAX_OCTAVE - MIN_OCTAVE + 1)) + MIN_OCTAVE;
+      const note = NOTES[Math.floor(Math.random() * NOTES.length)];
       return note + octave;
-    });
-  }
-
-  // Generate random tuning for Crazy level (random notes with octave in safe range)
-  function generateCrazyTuning() {
-    let tuning = [];
-    for (let i = 0; i < 6; i++) {
-      tuning.push(randomNoteInRange());
     }
-    return tuning;
-  }
 
-  // Generate tuning string from note+octave array, omitting octave for display
-  function tuningToDisplay(tuningWithOctave) {
-    return tuningWithOctave.map(n => n.replace(/\d/, '')).join(' ');
-  }
-
-  // Generate tuning string from note names array
-  function tuningNamesToString(tuningNotes) {
-    return tuningNotes.join(' ');
-  }
-
-  // Current tuning state
-  let currentTuning = STANDARD_TUNING.slice();
-  let currentLevel = 0;
-
-  // DOM elements
-  const tuningDisplay = document.getElementById('tuningDisplay');
-  const generateBtn = document.getElementById('generateBtn');
-  const levelSlider = document.getElementById('levelSlider');
-  const levelName = document.getElementById('levelName');
-  const levelDesc = document.getElementById('levelDesc');
-  const saveFavoriteBtn = document.getElementById('saveFavoriteBtn');
-  const favoritesList = document.getElementById('favoritesList');
-
-  // Favorites storage in localStorage
-  let favorites = JSON.parse(localStorage.getItem('strungFavorites')) || [];
-
-  function updateFavoritesUI() {
-    favoritesList.innerHTML = '';
-    if (favorites.length === 0) {
-      favoritesList.innerHTML = '<li><em>No favorites saved yet.</em></li>';
-      saveFavoriteBtn.disabled = false;
-      return;
-    }
-    favorites.forEach((tuning, idx) => {
-      const li = document.createElement('li');
-      li.textContent = tuning;
-      li.title = "Click to load this tuning";
-      li.addEventListener('click', () => {
-        tuningDisplay.textContent = tuning;
-        currentTuning = tuning.split(' ').map(n => n + '3'); // approximate octave 3 for loaded favorite
-        saveFavoriteBtn.disabled = false;
+    // Convert tuning string (notes only) to array with octave numbers approximated to standard tuning octaves
+    function assignOctaves(tuningNotes) {
+      return tuningNotes.map((note, i) => {
+        const std = parseNoteOctave(STANDARD_TUNING[i]);
+        if (!std) return note + '3'; // fallback octave 3
+        let baseIdx = noteIndex(std.note);
+        let noteIdx = noteIndex(note);
+        if (noteIdx === -1) noteIdx = 0; // fallback to C
+        let octave = std.octave;
+        if (noteIdx > baseIdx) octave -= 1;
+        return note + octave;
       });
-      favoritesList.appendChild(li);
+    }
+
+    // Generate random tuning for Level 3 (random notes with octave in safe range)
+    function generateRandomTuning() {
+      let tuning = [];
+      for (let i = 0; i < 6; i++) {
+        tuning.push(randomNoteInRange());
+      }
+      return tuning;
+    }
+
+    // Generate random tuning for Level 4 (danger: wider octave range)
+    function generateDangerTuning() {
+      let tuning = [];
+      for (let i = 0; i < 6; i++) {
+        const octave = Math.floor(Math.random() * 7); // 0 to 6 octave range
+        const note = NOTES[Math.floor(Math.random() * NOTES.length)];
+        tuning.push(note + octave);
+      }
+      return tuning;
+    }
+
+    // Generate tuning string from note+octave array, omitting octave for display
+    function tuningToDisplay(tuningWithOctave) {
+      return tuningWithOctave.map(n => n.replace(/\d/, '')).join(' ');
+    }
+
+    // Current tuning state
+    let currentTuning = STANDARD_TUNING.slice();
+    let currentLevel = 1;
+
+    // DOM elements
+    const tuningDisplay = document.getElementById('tuningDisplay');
+    const generateBtn = document.getElementById('generateBtn');
+    const levelSlider = document.getElementById('levelSlider');
+    const levelName = document.getElementById('levelName');
+    const levelDesc = document.getElementById('levelDesc');
+    const saveFavoriteBtn = document.getElementById('saveFavoriteBtn');
+    const favoritesList = document.getElementById('favoritesList');
+
+    // Favorites storage in localStorage
+    let favorites = JSON.parse(localStorage.getItem('strungFavorites')) || [];
+
+    function updateFavoritesUI() {
+      favoritesList.innerHTML = '';
+      if (favorites.length === 0) {
+        favoritesList.innerHTML = '<li><em>No favorites saved yet.</em></li>';
+        saveFavoriteBtn.disabled = false;
+        return;
+      }
+      favorites.forEach((tuning, idx) => {
+        const li = document.createElement('li');
+        li.textContent = tuning;
+        li.title = "Click to load this tuning";
+        li.addEventListener('click', () => {
+          tuningDisplay.textContent = tuning;
+          currentTuning = tuning.split(' ').map(n => n + '3'); // approximate octave 3 for loaded favorite
+          saveFavoriteBtn.disabled = false;
+        });
+        favoritesList.appendChild(li);
+      });
+      saveFavoriteBtn.disabled = false;
+    }
+
+    function saveFavorite() {
+      const tuningStr = tuningDisplay.textContent;
+      if (!favorites.includes(tuningStr)) {
+        favorites.push(tuningStr);
+        localStorage.setItem('strungFavorites', JSON.stringify(favorites));
+        updateFavoritesUI();
+        alert('Tuning saved to favorites!');
+      } else {
+        alert('Tuning already in favorites.');
+      }
+    }
+
+    function generateTuning() {
+      switch (currentLevel) {
+        case 1: // Level 1: Common
+          currentTuning = assignOctaves(LEVEL1_TUNINGS[Math.floor(Math.random() * LEVEL1_TUNINGS.length)].split(' '));
+          break;
+        case 2: // Level 2: Expanded
+          currentTuning = assignOctaves(LEVEL2_TUNINGS[Math.floor(Math.random() * LEVEL2_TUNINGS.length)].split(' '));
+          break;
+        case 3: // Level 3: Crazy
+          currentTuning = generateRandomTuning();
+          break;
+        case 4: // Level 4: Danger
+          currentTuning = generateDangerTuning();
+          break;
+      }
+      tuningDisplay.textContent = tuningToDisplay(currentTuning);
+      saveFavoriteBtn.disabled = false;
+    }
+
+    levelSlider.addEventListener('input', () => {
+      currentLevel = parseInt(levelSlider.value, 10);
+      levelName.textContent = LEVELS[currentLevel - 1].name;
+      levelDesc.textContent = LEVELS[currentLevel - 1].desc;
+      saveFavoriteBtn.disabled = true;
+      tuningDisplay.textContent = 'E A D G B E'; // reset display on level change
     });
-    saveFavoriteBtn.disabled = false;
-  }
 
-  function saveFavorite() {
-    const tuningStr = tuningDisplay.textContent;
-    if (!favorites.includes(tuningStr)) {
-      favorites.push(tuningStr);
-      localStorage.setItem('strungFavorites', JSON.stringify(favorites));
-      updateFavoritesUI();
-      alert('Tuning saved to favorites!');
-    } else {
-      alert('Tuning already in favorites.');
-    }
-  }
+    generateBtn.addEventListener('click', generateTuning);
+    saveFavoriteBtn.addEventListener('click', saveFavorite);
 
-  function generateTuning() {
-    switch (currentLevel) {
-      case 0: // Common
-        currentTuning = assignOctaves(COMMON_TUNINGS[Math.floor(Math.random() * COMMON_TUNINGS.length)].split(' '));
-        break;
-      case 1: // Expanded
-        currentTuning = assignOctaves(EXPANDED_TUNINGS[Math.floor(Math.random() * EXPANDED_TUNINGS.length)].split(' '));
-        break;
-      case 2: // Crazy
-        currentTuning = generateCrazyTuning();
-        break;
-      case 3: // Danger - extreme random, allow wider octave range
-        currentTuning = [];
-        for (let i = 0; i < 6; i++) {
-          const octave = Math.floor(Math.random() * 7) + 0; // 0 to 6 octave range
-          const note = NOTES[Math.floor(Math.random() * NOTES.length)];
-          currentTuning.push(note + octave);
-        }
-        break;
-    }
-    tuningDisplay.textContent = tuningToDisplay(currentTuning);
-    saveFavoriteBtn.disabled = false;
-  }
-
-  levelSlider.addEventListener('input', () => {
-    currentLevel = parseInt(levelSlider.value, 10);
-    levelName.textContent = LEVELS[currentLevel].name;
-    levelDesc.textContent = LEVELS[currentLevel].desc;
+    // Initialize UI
+    updateFavoritesUI();
+    tuningDisplay.textContent = 'E A D G B E';
     saveFavoriteBtn.disabled = true;
-    tuningDisplay.textContent = 'E A D G B E'; // reset display on level change
-  });
-
-  generateBtn.addEventListener('click', generateTuning);
-  saveFavoriteBtn.addEventListener('click', saveFavorite);
-
-  // Initialize UI
-  updateFavoritesUI();
-  tuningDisplay.textContent = 'E A D G B E';
-  saveFavoriteBtn.disabled = true;
-</script>
+  </script>
 
 </body>
 </html>
