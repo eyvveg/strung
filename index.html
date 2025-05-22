@@ -49,7 +49,7 @@
     font-size: 3rem;
     font-weight: 700;
     color: #0078d4;
-    margin: 3rem 0 1.5rem; /* Closer to generate button */
+    margin: 3rem 0 1.5rem;
     letter-spacing: 0.15em;
   }
   #generateBtn {
@@ -64,7 +64,7 @@
     border-radius: 4px;
     transition: background-color 0.3s ease;
     outline-offset: 2px;
-    margin-bottom: 3rem; /* Space below button to level slider */
+    margin-bottom: 4rem;
   }
   #generateBtn:hover {
     background: #005a9e;
@@ -187,7 +187,7 @@
 
   <div id="tuningDisplay">E A D G B E</div>
 
-  <button id="generateBtn" aria-label="Generate random tuning">Generate Tuning</button>
+  <button id="generateBtn" aria-label="Generate random tuning">Generate</button>
 
   <div id="levelLabel">Level <span id="levelName">1</span></div>
   <input type="range" id="levelSlider" min="1" max="4" step="1" value="1" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" aria-label="Select tuning level" />
@@ -395,7 +395,7 @@
   levelSlider.addEventListener('input', () => {
     currentLevel = parseInt(levelSlider.value, 10);
     levelLabel.innerHTML = 'Level <span id="levelName">' + currentLevel + '</span>';
-    levelName.textContent = LEVELS[currentLevel - 1].desc;
+    levelDesc.textContent = LEVELS[currentLevel - 1].desc;
     saveFavoriteBtn.disabled = true;
     tuningDisplay.textContent = 'E A D G B E';
   });
@@ -406,11 +406,10 @@
   // Initialize UI
   updateFavoritesUI();
   levelLabel.innerHTML = 'Level <span id="levelName">1</span>';
-  levelName.textContent = LEVELS[0].desc;
+  levelDesc.textContent = LEVELS[0].desc;
   tuningDisplay.textContent = 'E A D G B E';
   saveFavoriteBtn.disabled = true;
 </script>
 
 </body>
 </html>
-
