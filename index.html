@@ -17,16 +17,16 @@
     text-align: center;
   }
   .title {
-    font-size: 2.5rem; /* 25% larger than subtitle */
+    font-size: 3rem; /* same as tuning letters */
     font-weight: 700;
-    color: #0078d4;
+    color: #4a6a3f; /* moss green */
     margin-bottom: 0.2rem;
     letter-spacing: 0.1em;
   }
   .subtitle {
-    font-size: 2rem;
+    font-size: 1.7rem; /* 15% smaller than before */
     font-weight: 600;
-    color: #0078d4;
+    color: #4a6a3f;
     margin-top: 0;
     margin-bottom: 2rem;
     letter-spacing: 0.1em;
@@ -34,12 +34,12 @@
   #tuningDisplay {
     font-size: 3rem;
     font-weight: 700;
-    color: #0078d4;
-    margin: 3rem 0 2rem; /* vertical spacing */
+    color: #4a6a3f;
+    margin: 4rem 0 3rem; /* more vertical space */
     letter-spacing: 0.15em;
   }
   #generateBtn {
-    background: #0078d4;
+    background: #4a6a3f;
     color: white;
     border: none;
     padding: 1rem 3rem;
@@ -51,18 +51,17 @@
     transition: background-color 0.3s ease;
     outline: none;
   }
-  #generateBtn:hover,
-  #saveFavoriteBtn:hover {
-    background: #005a9e;
+  #generateBtn:hover {
+    background: #3e5a33;
   }
-  #generateBtn:focus,
-  #saveFavoriteBtn:focus {
-    outline: none;
+  #generateBtn:focus {
+    outline: 2px solid #3e5a33;
+    outline-offset: 2px;
   }
   #levelLabel {
     margin-top: 2rem;
     font-weight: 700;
-    color: #0078d4;
+    color: #4a6a3f;
     letter-spacing: 0.1em;
     font-size: 1rem;
   }
@@ -75,10 +74,7 @@
     cursor: pointer;
   }
   #levelDesc {
-    margin-top: 0.3rem;
-    font-style: normal;
-    font-size: 0.9rem;
-    color: #555;
+    display: none; /* removed as requested */
   }
   #favorites {
     margin-top: 2rem;
@@ -86,13 +82,6 @@
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
-  }
-  #favorites h2 {
-    color: #0078d4;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    font-size: 1rem; /* same size as button */
-    margin-bottom: 0.5rem;
   }
   #favoritesList {
     list-style: none;
@@ -102,13 +91,17 @@
     padding: 0.3rem 0;
     border-bottom: 1px solid #ccc;
     cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
   }
   #favoritesList li:hover {
-    background-color: #e6f0fa;
+    background-color: #e6f0ea;
   }
   #saveFavoriteBtn {
     margin-top: 1rem;
-    background: #0078d4;
+    background: #4a6a3f;
     color: white;
     border: none;
     padding: 0.5rem 1.5rem;
@@ -119,6 +112,60 @@
     text-transform: uppercase;
     font-size: 1rem;
     outline: none;
+    transition: background-color 0.3s ease;
+  }
+  #saveFavoriteBtn:hover {
+    background: #3e5a33;
+  }
+  #saveFavoriteBtn:focus {
+    outline: 2px solid #3e5a33;
+    outline-offset: 2px;
+  }
+
+  /* Popup styles */
+  #popupOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.4);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  #popupBox {
+    background: white;
+    padding: 1.5rem 2rem;
+    border-radius: 8px;
+    max-width: 320px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+  }
+  #popupBox button {
+    margin: 1rem 0.5rem 0 0.5rem;
+    padding: 0.5rem 1.5rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  #popupConfirmBtn {
+    background: #4a6a3f;
+    color: white;
+  }
+  #popupCancelBtn {
+    background: #ccc;
+    color: #333;
+  }
+  #popupConfirmBtn:hover {
+    background: #3e5a33;
+  }
+  #popupCancelBtn:hover {
+    background: #bbb;
   }
 </style>
 </head>
@@ -133,25 +180,33 @@
 
   <div id="levelLabel">Alternate Tunings Level: <span id="levelName">1</span></div>
   <input type="range" id="levelSlider" min="1" max="4" step="1" value="1" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" aria-label="Select tuning level" />
-  <div id="levelDesc">Common alternate tunings</div>
 
   <button id="saveFavoriteBtn" disabled>Save Favorite</button>
 
   <div id="favorites">
-    <h2>Favorites</h2>
     <ul id="favoritesList"></ul>
   </div>
 
+  <!-- Popup for delete confirmation -->
+  <div id="popupOverlay" role="dialog" aria-modal="true" aria-labelledby="popupTitle" aria-describedby="popupDesc">
+    <div id="popupBox">
+      <div id="popupTitle" style="font-weight:700; margin-bottom:0.5rem;">Delete Favorite?</div>
+      <div id="popupDesc">Are you sure you want to delete this favorite tuning?</div>
+      <button id="popupConfirmBtn">Delete</button>
+      <button id="popupCancelBtn">Cancel</button>
+    </div>
+  </div>
+
 <script>
-  // Tuning level descriptions
+  // Level descriptions (short labels only)
   const LEVELS = [
-    { name: '1', desc: 'Common alternate tunings' },
-    { name: '2', desc: 'Expanded alternate tunings' },
-    { name: '3', desc: 'Fully random alternate tunings' },
-    { name: '4', desc: 'Dangerous alternate tunings' }
+    { name: '1', desc: 'common' },
+    { name: '2', desc: 'expanded' },
+    { name: '3', desc: 'fully random' },
+    { name: '4', desc: 'dangerous' }
   ];
 
-  // Level 1: ~80 popular tunings (Wikipedia + Stringjoy)
+  // Level 1 and Level 2 tuning arrays (curated sets)
   const LEVEL1_TUNINGS = [
     "E A D G B E","D A D G B E","C G C F A D","B F# B E G# C#","A E A D F# B",
     "D A D G B D","C G C F G C","B E A D F# B","D A D F# A D","D G D G B D",
@@ -169,7 +224,6 @@
     "C F C F A C","C G C G B D","D G D G B E","C G D G B D","D G D G C D"
   ];
 
-  // Level 2: ~25 unique Rāga Junglism tunings (practical only)
   const LEVEL2_TUNINGS = [
     "C F Bb Eb G C",  // C Standard
     "Eb G D A Bb C",  // Gothic
@@ -198,7 +252,6 @@
     "D G D G B D"     // Modal variant
   ];
 
-  // Utility functions to assign octaves and generate random tunings
   const NOTES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
   const STANDARD_TUNING = ['E2', 'A2', 'D3', 'G3', 'B3', 'E4'];
 
@@ -226,18 +279,22 @@
     return tuningWithOctave.map(n => n.replace(/\d/, '')).join(' ');
   }
 
-  // State and DOM elements
   let currentTuning = STANDARD_TUNING.slice();
   let currentLevel = 1;
+
   const tuningDisplay = document.getElementById('tuningDisplay');
   const generateBtn = document.getElementById('generateBtn');
   const levelSlider = document.getElementById('levelSlider');
   const levelName = document.getElementById('levelName');
-  const levelDesc = document.getElementById('levelDesc');
   const saveFavoriteBtn = document.getElementById('saveFavoriteBtn');
   const favoritesList = document.getElementById('favoritesList');
 
+  const popupOverlay = document.getElementById('popupOverlay');
+  const popupConfirmBtn = document.getElementById('popupConfirmBtn');
+  const popupCancelBtn = document.getElementById('popupCancelBtn');
+
   let favorites = JSON.parse(localStorage.getItem('strungFavorites')) || [];
+  let deleteIndex = null;
 
   function updateFavoritesUI() {
     favoritesList.innerHTML = '';
@@ -246,19 +303,44 @@
       saveFavoriteBtn.disabled = false;
       return;
     }
-    favorites.forEach(tuning => {
+    favorites.forEach((tuning, index) => {
       const li = document.createElement('li');
       li.textContent = tuning;
-      li.title = "Click to load this tuning";
+      li.title = "Click to delete this favorite tuning";
+      li.style.userSelect = 'none';
+      li.style.cursor = 'pointer';
+
       li.addEventListener('click', () => {
-        tuningDisplay.textContent = tuning;
-        currentTuning = tuning.split(' ').map(n => n + '3');
-        saveFavoriteBtn.disabled = false;
+        showDeletePopup(index);
       });
+
       favoritesList.appendChild(li);
     });
     saveFavoriteBtn.disabled = false;
   }
+
+  function showDeletePopup(index) {
+    deleteIndex = index;
+    popupOverlay.style.display = 'flex';
+  }
+
+  function hideDeletePopup() {
+    popupOverlay.style.display = 'none';
+    deleteIndex = null;
+  }
+
+  popupConfirmBtn.addEventListener('click', () => {
+    if (deleteIndex !== null) {
+      favorites.splice(deleteIndex, 1);
+      localStorage.setItem('strungFavorites', JSON.stringify(favorites));
+      updateFavoritesUI();
+      hideDeletePopup();
+    }
+  });
+
+  popupCancelBtn.addEventListener('click', () => {
+    hideDeletePopup();
+  });
 
   function saveFavorite() {
     const tuningStr = tuningDisplay.textContent;
@@ -281,7 +363,6 @@
         currentTuning = assignOctaves(LEVEL2_TUNINGS[Math.floor(Math.random() * LEVEL2_TUNINGS.length)].split(' '));
         break;
       case 3:
-        // Fully random within chromatic scale, octave 1-5
         currentTuning = [];
         for (let i = 0; i < 6; i++) {
           const note = NOTES[Math.floor(Math.random() * NOTES.length)];
@@ -290,7 +371,6 @@
         }
         break;
       case 4:
-        // Dangerous: random notes octave 0-6
         currentTuning = [];
         for (let i = 0; i < 6; i++) {
           const note = NOTES[Math.floor(Math.random() * NOTES.length)];
@@ -305,8 +385,7 @@
 
   levelSlider.addEventListener('input', () => {
     currentLevel = parseInt(levelSlider.value, 10);
-    levelName.textContent = LEVELS[currentLevel - 1].name;
-    levelDesc.textContent = LEVELS[currentLevel - 1].desc;
+    levelName.textContent = LEVELS[currentLevel - 1].desc;
     saveFavoriteBtn.disabled = true;
     tuningDisplay.textContent = 'E A D G B E';
   });
