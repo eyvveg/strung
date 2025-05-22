@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>STRUNG - Guitar Tuning Generator</title>
 <style>
+  /* Base and layout */
   body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     max-width: 900px;
@@ -16,30 +17,51 @@
     text-transform: uppercase;
     text-align: center;
   }
+  /* Responsive tweaks */
+  @media (max-width: 600px) {
+    body {
+      padding: 1rem 1rem;
+      margin: 2rem auto;
+    }
+    #tuningDisplay {
+      font-size: 2.5rem;
+      margin: 3rem 0 2rem;
+    }
+    #generateBtn {
+      padding: 0.8rem 2rem;
+      font-size: 1.1rem;
+    }
+  }
+
+  /* Title and subtitle */
   .title {
     font-size: 3rem; /* same as tuning letters */
     font-weight: 700;
-    color: #4a6a3f; /* moss green */
+    color: #0078d4; /* blue */
     margin-bottom: 0.2rem;
     letter-spacing: 0.1em;
   }
   .subtitle {
-    font-size: 1.7rem; /* 15% smaller than before */
+    font-size: 1.7rem; /* 15% smaller */
     font-weight: 600;
-    color: #4a6a3f;
+    color: #0078d4;
     margin-top: 0;
     margin-bottom: 2rem;
     letter-spacing: 0.1em;
   }
+
+  /* Tuning display - isolated with vertical spacing */
   #tuningDisplay {
     font-size: 3rem;
     font-weight: 700;
-    color: #4a6a3f;
-    margin: 4rem 0 3rem; /* more vertical space */
+    color: #0078d4;
+    margin: 4rem 0 3rem; /* vertical spacing for isolation */
     letter-spacing: 0.15em;
   }
+
+  /* Generate button - isolated with spacing */
   #generateBtn {
-    background: #4a6a3f;
+    background: #0078d4;
     color: white;
     border: none;
     padding: 1rem 3rem;
@@ -49,59 +71,36 @@
     text-transform: uppercase;
     border-radius: 4px;
     transition: background-color 0.3s ease;
-    outline: none;
-  }
-  #generateBtn:hover {
-    background: #3e5a33;
-  }
-  #generateBtn:focus {
-    outline: 2px solid #3e5a33;
     outline-offset: 2px;
   }
-  #levelLabel {
-    margin-top: 2rem;
+  #generateBtn:hover {
+    background: #005a9e;
+  }
+  #generateBtn:focus {
+    outline: 2px solid #005a9e;
+  }
+
+  /* Level name only, bigger font, no label */
+  #levelName {
     font-weight: 700;
-    color: #4a6a3f;
+    color: #0078d4;
     letter-spacing: 0.1em;
-    font-size: 1rem;
+    font-size: 1.2rem;
+    margin-top: 2rem;
+    display: block;
   }
-  #levelLabel span {
-    font-weight: 700;
-  }
+
+  /* Slider styling */
   input[type="range"] {
     width: 80%;
     margin-top: 0.5rem;
     cursor: pointer;
   }
-  #levelDesc {
-    display: none; /* removed as requested */
-  }
-  #favorites {
-    margin-top: 2rem;
-    text-align: left;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  #favoritesList {
-    list-style: none;
-    padding-left: 0;
-  }
-  #favoritesList li {
-    padding: 0.3rem 0;
-    border-bottom: 1px solid #ccc;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    user-select: none;
-  }
-  #favoritesList li:hover {
-    background-color: #e6f0ea;
-  }
+
+  /* Save favorite button */
   #saveFavoriteBtn {
     margin-top: 1rem;
-    background: #4a6a3f;
+    background: #0078d4;
     color: white;
     border: none;
     padding: 0.5rem 1.5rem;
@@ -111,30 +110,51 @@
     letter-spacing: 0.1em;
     text-transform: uppercase;
     font-size: 1rem;
-    outline: none;
+    outline-offset: 2px;
     transition: background-color 0.3s ease;
   }
   #saveFavoriteBtn:hover {
-    background: #3e5a33;
+    background: #005a9e;
   }
   #saveFavoriteBtn:focus {
-    outline: 2px solid #3e5a33;
-    outline-offset: 2px;
+    outline: 2px solid #005a9e;
   }
 
-  /* Popup styles */
+  /* Favorites list container */
+  #favorites {
+    margin-top: 2rem;
+    text-align: left;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Favorites list */
+  #favoritesList {
+    list-style: none;
+    padding-left: 0;
+  }
+  #favoritesList li {
+    padding: 0.3rem 0;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+    user-select: none;
+  }
+  #favoritesList li:hover {
+    background-color: #e6f0fa;
+  }
+
+  /* Popup overlay */
   #popupOverlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(0,0,0,0.4);
     display: none;
     justify-content: center;
     align-items: center;
     z-index: 1000;
   }
+  /* Popup box */
   #popupBox {
     background: white;
     padding: 1.5rem 2rem;
@@ -143,6 +163,7 @@
     text-align: center;
     box-shadow: 0 0 10px rgba(0,0,0,0.25);
   }
+  /* Popup buttons */
   #popupBox button {
     margin: 1rem 0.5rem 0 0.5rem;
     padding: 0.5rem 1.5rem;
@@ -154,7 +175,7 @@
     text-transform: uppercase;
   }
   #popupConfirmBtn {
-    background: #4a6a3f;
+    background: #0078d4;
     color: white;
   }
   #popupCancelBtn {
@@ -162,7 +183,7 @@
     color: #333;
   }
   #popupConfirmBtn:hover {
-    background: #3e5a33;
+    background: #005a9e;
   }
   #popupCancelBtn:hover {
     background: #bbb;
@@ -178,7 +199,7 @@
 
   <button id="generateBtn" aria-label="Generate random tuning">Generate Tuning</button>
 
-  <div id="levelLabel">Alternate Tunings Level: <span id="levelName">1</span></div>
+  <span id="levelName">common</span>
   <input type="range" id="levelSlider" min="1" max="4" step="1" value="1" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" aria-label="Select tuning level" />
 
   <button id="saveFavoriteBtn" disabled>Save Favorite</button>
@@ -190,15 +211,12 @@
   <!-- Popup for delete confirmation -->
   <div id="popupOverlay" role="dialog" aria-modal="true" aria-labelledby="popupTitle" aria-describedby="popupDesc">
     <div id="popupBox">
-      <div id="popupTitle" style="font-weight:700; margin-bottom:0.5rem;">Delete Favorite?</div>
-      <div id="popupDesc">Are you sure you want to delete this favorite tuning?</div>
       <button id="popupConfirmBtn">Delete</button>
       <button id="popupCancelBtn">Cancel</button>
     </div>
   </div>
 
 <script>
-  // Level descriptions (short labels only)
   const LEVELS = [
     { name: '1', desc: 'common' },
     { name: '2', desc: 'expanded' },
@@ -206,7 +224,6 @@
     { name: '4', desc: 'dangerous' }
   ];
 
-  // Level 1 and Level 2 tuning arrays (curated sets)
   const LEVEL1_TUNINGS = [
     "E A D G B E","D A D G B E","C G C F A D","B F# B E G# C#","A E A D F# B",
     "D A D G B D","C G C F G C","B E A D F# B","D A D F# A D","D G D G B D",
@@ -225,31 +242,31 @@
   ];
 
   const LEVEL2_TUNINGS = [
-    "C F Bb Eb G C",  // C Standard
-    "Eb G D A Bb C",  // Gothic
-    "E A D G C F",    // All Fourths
-    "C G D A E G",    // New Standard (Fripp)
-    "B♭ F C G D A",   // All Fifths (Stringjoy variant)
-    "E A D G B F#",   // Modal variant
-    "D G D G B F#",   // Modal variant
-    "D G D G B D#",   // Modal variant
-    "D G D G C E",    // Modal variant
-    "D G D G C F",    // Modal variant
-    "D G D G B C",    // Modal variant
-    "D G D G B F",    // Modal variant
-    "C G C F A D",    // Modal variant
-    "C G C F G C",    // Modal variant
-    "C G D G B D",    // Modal variant
-    "D G D G B E",    // Modal variant
-    "D G D G B F#",   // Modal variant
-    "D G D G C D",    // Modal variant
-    "D G D G B E",    // Modal variant
-    "C G C F A C",    // Modal variant
-    "C G C G B D",    // Modal variant
-    "C G D G B F#",   // Modal variant
-    "D G D G B D",    // Modal variant
-    "C G C G C E",    // Modal variant
-    "D G D G B D"     // Modal variant
+    "C F Bb Eb G C",
+    "Eb G D A Bb C",
+    "E A D G C F",
+    "C G D A E G",
+    "B♭ F C G D A",
+    "E A D G B F#",
+    "D G D G B F#",
+    "D G D G B D#",
+    "D G D G C E",
+    "D G D G C F",
+    "D G D G B C",
+    "D G D G B F",
+    "C G C F A D",
+    "C G C F G C",
+    "C G D G B D",
+    "D G D G B E",
+    "D G D G B F#",
+    "D G D G C D",
+    "D G D G B E",
+    "C G C F A C",
+    "C G C G B D",
+    "C G D G B F#",
+    "D G D G B D",
+    "C G C G C E",
+    "D G D G B D"
   ];
 
   const NOTES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
